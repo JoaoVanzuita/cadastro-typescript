@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+.App {
+  text-align: center;
+}
+
+.form{
+  height: 90%;
+  width: 100%;
+}
+
+footer{
+  box-sizing: border-box;
+  background-color: #000000;
+  width: 100%;
+  display: flex;
+}
+
+nav{
+  margin: auto;
+}
+
+nav a {
+  color: #FFFFFF;
+  display: inline-block;
+  margin: 10px;
+  transition: all 0.25s;
+}
+nav a:hover {
+  text-decoration: none;
+  font-size: 20px;
+  margin: -5px 0 0 0;
+}
+#root {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #a1a1a1;
+}
+
+.tittle{
+  padding-top:15px;
+  padding-bottom: 15px;
+  width: 100vw;
+  background-color: #000000;
+  text-align: center;
+  margin-bottom: 15%;
+}
+
+select, .loading{
+  cursor: pointer;
+  background-color: #000000;
+  border: 0px;
+  font-size: 20px;
+  width: auto;
+  margin-bottom: 5%;
+  border-radius: 10px 20px;
+  text-align: center;
+  padding: 1%;
+}
+
+.form>input{
+  border: none;
+  color: #000000;
+  font-size: 20px;
+  margin: auto;
+  margin-bottom: 50px;
+  background-color: #a1a1a1;
+  border-bottom: 1px solid #000000;
+  text-align: center;
+  transition: all 0.25s;
+}
+
+select, input, .loading{
+  width: auto;
+}
+
+.form input:focus{
+  box-shadow: 0;
+  border: 0 none;
+  border-bottom: 1px solid #000000;
+  outline: 0;
+}
+
+.form input:hover{
+  font-size: 25px;
+}
+
+.form .action > button{
+  margin: 2%;
+  height: 50px;
+  width: 100px;
+  cursor: pointer;
+  background-color: #000000;
+  color: #FFFFFF;
+  border-radius: 10px;
+  text-align: center;
+  transition: font-size 0.25s;
+}
+
+.form .action > button:hover{
+  font-size: 20px;
+}
+
+.action {
+  display: flex;
+  width: 100%;
+  margin-top: -5px;
+  justify-content: center;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  margin: auto;
+  font-size: 20px;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table thead tr {
+  background-color: #000000;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #000000;
+}
