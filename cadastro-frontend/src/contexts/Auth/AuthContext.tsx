@@ -19,7 +19,7 @@ export default function AuthContextProvider(props: PropsWithChildren) {
 
     const data = await api.signin(email, password)
 
-    if (data.sesid) {
+    if (data) {
       setToken(data.sesid)
 
       return true

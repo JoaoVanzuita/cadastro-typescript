@@ -43,7 +43,7 @@ app.get("/api/user/:id", (req, res) => {
   database.get(sql, [req.params.id], (err, rows) => {
 
     if (err) {
-      res.status(400).json({"error": err.message })
+      res.status(400).json({ "error": err.message })
       return
     }
 

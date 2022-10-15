@@ -23,9 +23,9 @@ export default function () {
     }
 
     //AuthContext -> useApi -> requisição para a API -> resposta
-    const islogged = await auth.signin(email, password)
+    const response = await auth.signin(email, password)
 
-    if (!islogged) {
+    if (!response) {
 
       alert("Unregistered User")
       navigate('/register')
