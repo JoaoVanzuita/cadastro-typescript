@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../contexts/Auth/AuthContext"
+import Swal from 'sweetalert2'
 
 export default function () {
   const [email, setEmail] = useState('')
@@ -18,7 +19,7 @@ export default function () {
 
     if (!email || !password) {
 
-      alert("Please fill in all required fields")
+      Swal.fire('Invalid input', 'Please fill in all required fields', 'error')
       return
     }
 
@@ -27,7 +28,7 @@ export default function () {
 
     if (!response) {
 
-      alert("Unregistered User")
+      Swal.fire('Login error', 'Unregistred user', 'error')
       navigate('/register')
       return
     }

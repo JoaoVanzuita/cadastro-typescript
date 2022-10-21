@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Swal from "sweetalert2"
 import { useApi } from "../hooks/useApi"
 import { User } from "../types/User"
 
@@ -20,7 +21,7 @@ export default function () {
 
     if (!userData?.name || !userData?.email || !userData?.password) {
 
-      alert('Please fill in all required fields')
+      Swal.fire('Invalid input', 'Please fill in all required fields', 'error')
       return
     }
 
@@ -28,11 +29,11 @@ export default function () {
 
     if (response.message) {
 
-      alert(`Status: ${response.message} \nChanges: ${response.changes}`)
+      Swal.fire(`Success`, `Status: ${response.message} \nUser id: ${response.id}`, `success`)
       return
     }
 
-    alert(`Status: ${response.status} \nError: ${response.error}`)
+    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.error}`, `error`)
   }
 
   return <>

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 import { useApi } from "../hooks/useApi"
 
 export default function () {
@@ -13,7 +14,7 @@ export default function () {
 
     if (!name || !email || !password) {
 
-      alert('Please fill in all required fields')
+      Swal.fire('Invalid input', 'Please fill in all required fields', 'error')
       return
     }
 
@@ -22,16 +23,13 @@ export default function () {
 
     if (response.message) {
 
-      if (response.message) {
+      Swal.fire(`Success`, `Status: ${response.message} \nUser id: ${response.id}`, `success`)
 
-        alert(`Status: ${response.message} \nUser ID: ${response.id}`)
-
-        navigate('/')
-        return
-      }
-
-      alert(`Status: ${response.status} \nError: ${response.error}`)
+      navigate('/')
+      return
     }
+
+    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.error}`, `error`)
   }
   return <>
     <div className="tittle"><h1>User registration</h1></div>
