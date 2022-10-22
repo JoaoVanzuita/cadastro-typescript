@@ -30,7 +30,7 @@ export default function () {
     <footer>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/manageAccount">Manage account</Link>
+        {localStorage.getItem('authToken') && <Link to="/manageAccount">Manage account</Link>}
         {!localStorage.getItem('authToken') && <Link to="/login">Login</Link>}
         <Link to="/register">Register</Link>
         {/*<Link to="/update">Update</Link>*/}
