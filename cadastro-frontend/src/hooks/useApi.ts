@@ -8,13 +8,13 @@ export const useApi = () => ({
     const response = await fetch(`api/login/`, {
       method: 'POST',
       headers: {
-         'Content-Type':
-         'application/json'
-         },
+        'Content-Type':
+          'application/json'
+      },
       body: JSON.stringify({ email, password })
     })
 
-    if(response.ok){
+    if (response.ok) {
       return await response.json()
     }
     return null
@@ -60,8 +60,11 @@ export const useApi = () => ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
     })
+    const parsedResponse = await response.json()
 
-    return await response.json()
+    console.log(parsedResponse)
+
+    return parsedResponse
   },
   delete: async (user: User) => {
 

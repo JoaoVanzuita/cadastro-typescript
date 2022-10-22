@@ -36,7 +36,7 @@ export default function () {
       return
     }
 
-    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.error}`, `error`)
+    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
 
     return
   }

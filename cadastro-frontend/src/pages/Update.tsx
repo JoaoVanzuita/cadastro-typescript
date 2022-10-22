@@ -27,13 +27,13 @@ export default function () {
 
     const response = await api.update(userData!)
 
-    if (response.message) {
+    if (response.status == 200) {
 
-      Swal.fire(`Success`, `Status: ${response.message} \nUser id: ${response.id}`, `success`)
+      Swal.fire(`Success`, `Status: ${response.message} \nUser id: ${response.data.id}`, `success`)
       return
     }
 
-    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.error}`, `error`)
+    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
   }
 
   return <>

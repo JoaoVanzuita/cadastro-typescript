@@ -21,7 +21,9 @@ export default function () {
     const data = { name, email, password }
     const response = await api.create(data)
 
-    if (response.message) {
+    console.log(response)
+
+    if (response.status == 201) {
 
       Swal.fire(`Success`, `Status: ${response.message} \n User id: ${response.id}`, `success`)
 
@@ -29,7 +31,7 @@ export default function () {
       return
     }
 
-    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.error}`, `error`)
+    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
   }
   return <>
     <div className="tittle"><h1>User registration</h1></div>
