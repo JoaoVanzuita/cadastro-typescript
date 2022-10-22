@@ -54,21 +54,18 @@ export const useApi = () => ({
   },
   update: async (user: User) => {
 
-    const { id, name, email, password } = user
+    const { idUser: id, name, email, password } = user
     const response = await fetch(`api/user/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
     })
-    const parsedResponse = await response.json()
 
-    console.log(parsedResponse)
-
-    return parsedResponse
+    return await response.json()
   },
   delete: async (user: User) => {
 
-    const id = user.id
+    const id = user.idUser
     const response = await fetch(`api/user/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }

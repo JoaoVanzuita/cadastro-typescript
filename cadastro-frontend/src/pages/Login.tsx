@@ -26,14 +26,14 @@ export default function () {
     //AuthContext -> useApi -> requisição para a API -> resposta
     const response = await auth.signin(email, password)
 
-    if (!response) {
+    if (response) {
 
-      Swal.fire('Login error', 'Unregistred user', 'error')
-      navigate('/register')
+      navigate('/')
       return
     }
 
-    navigate('/')
+    Swal.fire('Login error', 'Unregistred user', 'error')
+    navigate('/register')
     return
 
   }

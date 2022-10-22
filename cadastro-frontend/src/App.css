@@ -136,4 +136,10 @@ select, input, .loading{
   border-bottom: 2px solid #000000;
 }
 
+.alert {
+  background-color: #a1a1a1;
+}
 
+.alert button{
+  background-color: #000000;
+}

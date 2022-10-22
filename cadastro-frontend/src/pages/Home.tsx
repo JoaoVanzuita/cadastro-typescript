@@ -30,7 +30,7 @@ export default function () {
         </thead>
         <tbody>
           <tr>
-            <td>{userData?.id}</td>
+            <td>{userData?.idUser}</td>
             <td>{userData?.name}</td>
             <td>{userData?.email}</td>
           </tr>

@@ -3,6 +3,9 @@ import "express-async-errors"
 import cors from 'cors'
 import { CreateUser } from "./modules/users/DAO/CreateUser"
 import { AppError } from "./errors/appError"
+import { Login } from "./modules/users/DAO/Login"
+import { GetUserById } from "./modules/users/DAO/GetUserById"
+import { GetAllUsers } from "./modules/users/DAO/GetAllUsers"
 
 //factory function: função que fabrica um objeto (paradigma funcional)
 //new Express() - orientado a objeto
@@ -18,40 +21,33 @@ app.use(cors());
 app.listen(port, () => console.log(`Server online - Running on port ${port}`))
 
 //GET ALL USERS
-app.get("/api/users", (req, res) => {
-  // const sql = "SELECT id, name, email FROM users"
+app.get("/api/users", async (req, res) => {
 
-  // database.all(sql, [], (err, rows) => {
+  const getAllUsers = new GetAllUsers()
 
-  //   if (err) {
-  //     res.status(400).json({ "error": err.message })
-  //     return
-  //   }
+  const result = await getAllUsers.execute()
 
-  //   res.json({
-  //     "message": "success",
-  //     "data": rows
-  //   })
-  // })
+  res.json({
+    "status": 200,
+    "message": "success",
+    "data": result
+  })
 })
 
 //GET USER BY ID
-app.get("/api/user/:id", (req, res) => {
-  //const sql = "SELECT id, name, email FROM users WHERE id = ?"
+app.get("/api/user/:id", async (req, res) => {
 
-  // database.get(sql, [req.params.id], (err, rows) => {
+  const idUser = Number(req.params.id)
 
-  //   if (err) {
-  //     res.status(400).json({ "error": err.message })
-  //     return
-  //   }
+  const getUserById = new GetUserById()
 
-  //   res.json({
-  //     "status": 200,
-  //     "message": "success",
-  //     "data": rows
-  //   })
-  // })
+  const user = await getUserById.execute({idUser})
+
+  res.json({
+    "status": 200,
+    "message": "success",
+    "data": user
+  })
 })
 
 //CREATE USER
@@ -76,13 +72,12 @@ app.post("/api/user/", async (req, res) => {
 
   const createUser = new CreateUser();
 
-  const result = await createUser.create({ name, email, password })
+  const result = await createUser.execute({ name, email, password })
 
   if (result.idUser) {
     res.status(201).json({
       "status": 201,
       "message": "success",
-      "data": { name, email, password },
       "id": result.idUser
     })
   }
@@ -150,34 +145,29 @@ app.delete("/api/user/:id", (req, res) => {
 })
 
 //LOGIN
-app.post("/api/login/", (req, res) => {
-  // const sql = "SELECT id, name, email FROM USERS WHERE email = ? AND password = ?"
+app.post("/api/login/", async (req, res) => {
 
-  // const { email, password } = req.body
+  const { email, password } = req.body
+  const login = new Login()
 
-  // database.get(sql, [email, password], (err, row) => {
+  const user = await login.execute({ email, password })
 
-  //   if (err) {
-  //     res.status(400).json({ "error": err.message })
-  //     return
-  //   }
+  if (!user) {
+    res.status(404).send()
+    return
+  }
 
-  //   if (!row?.id) {
-  //     res.status(404).send()
-  //     return
-  //   }
+  require('crypto').randomBytes(48, (err: any, buffer: any) => {
+    const token = buffer.toString('hex')
+    session[token] = user
 
-  //   require('crypto').randomBytes(48, (err: any, buffer: any) => {
-  //     const token = buffer.toString('hex')
-  //     session[token] = row
+    res.json({
+      "status": 200,
+      "message": "success",
+      "sesid": token
+    })
+  })
 
-  //     res.json({
-  //       "message": "success",
-  //       "sesid": token
-  //     })
-  //   })
-
-  // })
 })
 
 //verifica user em session[sesid]; se houver, abre a página principal passando o usuário na response
@@ -203,7 +193,7 @@ app.get("/api/logout/:sesid", (req, res) => {
     return
   }
 
-  res.status(404).send()
+  res.status(400).send()
 })
 
 //Error handling
