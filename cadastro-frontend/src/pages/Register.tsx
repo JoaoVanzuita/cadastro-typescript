@@ -23,7 +23,7 @@ export default function () {
 
     if (response.message) {
 
-      Swal.fire(`Success`, `Status: ${response.message} \nUser id: ${response.id}`, `success`)
+      Swal.fire(`Success`, `Status: ${response.message} \n User id: ${response.id}`, `success`)
 
       navigate('/')
       return

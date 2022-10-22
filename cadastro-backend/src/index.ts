@@ -2,6 +2,7 @@ import express from "express"
 import { RunResult } from "sqlite3"
 import { database } from "./database"
 import cors from 'cors'
+import { CreateUser } from "./modules/users/DAO/CreateUser"
 
 //factory function: função que fabrica um objeto (paradigma funcional)
 //new Express() - orientado a objeto
@@ -55,7 +56,7 @@ app.get("/api/user/:id", (req, res) => {
 })
 
 //CREATE USER
-app.post("/api/user/", (req, res) => {
+app.post("/api/user/", async (req, res) => {
 
   const errors = []
 
@@ -73,21 +74,39 @@ app.post("/api/user/", (req, res) => {
   }
 
   const { name, email, password } = req.body
-  const sql = 'INSERT INTO users (name, email, password) VALUES (?,?,?)'
-  const params = [name, email, password]
 
-  database.run(sql, params, function (this: RunResult, err) {
-    if (err) {
-      res.status(400).json({ "error": err.message })
-      return
-    }
+  const createUser = new CreateUser();
 
+  const result = await createUser.create({ name, email, password })
+
+  if (result.idUser) {
     res.json({
       "message": "success",
       "data": { name, email, password },
-      "id": this.lastID
+      "id": result.idUser
     })
-  })
+    return
+  }
+
+  //TODO: Add error handle
+
+  // const sql = 'INSERT INTO users (name, email, password) VALUES (?,?,?)'
+  // const params = [name, email, password]
+
+  // database.run(sql, params, function (this: RunResult, err) {
+  //   if (err) {
+  //     res.status(400).json({ "error": err.message })
+  //     return
+  //   }
+
+  //   res.json({
+  //     "message": "success",
+  //     "data": { name, email, password },
+  //     "id": this.lastID
+  //   })
+  // })
+
+
 })
 
 //UPDATE USER
