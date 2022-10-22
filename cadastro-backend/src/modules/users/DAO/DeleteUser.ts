@@ -1,13 +1,13 @@
 import { AppError } from "../../../errors/appError";
 import { prisma } from "../../../prisma/Client";
-import { UpdateUserDTO } from "../DTO/UpdateUserDTO";
+import { DeleteUserDTO } from "../DTO/DeleteUserDTO";
 
-export class UpdateUser {
-  async execute({ idUser, name, email, password }: UpdateUserDTO): Promise<number> {
+export class DeleteUser {
+  async execute({ idUser } : DeleteUserDTO): Promise<Number> {
 
     const userExists = await prisma.user.findUnique({
       where: {
-        email
+        idUser
       }
     })
 
@@ -15,12 +15,9 @@ export class UpdateUser {
       throw new AppError("User not found.", 404)
     }
 
-    const user = await prisma.user.update({
+    const user = await prisma.user.delete({
       where:{
         idUser
-      },
-      data: {
-        name, email, password
       },
       select:{
         idUser: true,

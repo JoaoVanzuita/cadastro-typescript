@@ -7,6 +7,7 @@ import { Login } from "./modules/users/DAO/Login"
 import { GetUserById } from "./modules/users/DAO/GetUserById"
 import { GetAllUsers } from "./modules/users/DAO/GetAllUsers"
 import { UpdateUser } from "./modules/users/DAO/UpdateUser"
+import { DeleteUser } from "./modules/users/DAO/DeleteUser"
 
 //factory function: função que fabrica um objeto (paradigma funcional)
 //new Express() - orientado a objeto
@@ -42,12 +43,12 @@ app.get("/api/user/:id", async (req, res) => {
 
   const getUserById = new GetUserById()
 
-  const user = await getUserById.execute({ idUser })
+  const result = await getUserById.execute({ idUser })
 
   res.json({
     "status": 200,
     "message": "success",
-    "data": user
+    "data": result
   })
 })
 
@@ -75,11 +76,11 @@ app.post("/api/user/", async (req, res) => {
 
   const result = await createUser.execute({ name, email, password })
 
-  if (result.idUser) {
+  if (result) {
     res.status(201).json({
       "status": 201,
       "message": "success",
-      "id": result.idUser
+      "id": result
     })
   }
 })
@@ -110,28 +111,21 @@ app.patch("/api/user/:id", async (req, res) => {
   res.status(200).json({
     "status": 200,
     "message": "success",
-    "id": result.idUser
+    "id": result
   })
-
-  // })
 })
 
 //DELETE USER
-app.delete("/api/user/:id", (req, res) => {
-  // const sql = `DELETE FROM users WHERE id = ?`
+app.delete("/api/user/:id", async (req, res) => {
+  const idUser = Number(req.params.id)
 
-  // database.run(sql, [req.params.id], function (this: RunResult, err) {
+  const deleteUser = new DeleteUser()
+  const result = await deleteUser.execute({ idUser })
 
-  //   if (err) {
-  //     res.status(400).json({ "error": err.message })
-  //     return
-  //   }
-
-  //   res.status(200).json({
-  //     "message": "success",
-  //     "changes": this.changes
-  //   })
-  // })
+  res.status(200).json({
+    "status": 200,
+    "id": result
+  })
 })
 
 //LOGIN

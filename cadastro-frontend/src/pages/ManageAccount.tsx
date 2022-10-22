@@ -1,13 +1,16 @@
 import { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import { AuthContext } from "../contexts/Auth/AuthContext"
 import { useApi } from "../hooks/useApi"
 import { User } from "../types/User"
 
+
 export default function () {
   const auth = useContext(AuthContext)
   const api = useApi()
   const [userData, setUserData] = useState<User>()
+  const navigate = useNavigate()
 
   const fetchUser = async () => {
 
@@ -48,9 +51,12 @@ export default function () {
 
       if (response.status == 200) {
 
-        Swal.fire(`Success`, `Status: ${response.message} \n Id deleted: ${response.id}`, `success`)
+        Swal.fire(`Success`, `Status: ${response.message} \n Id deleted: ${response.id}`, `success`).then(() =>{
 
-        auth.signout(localStorage.getItem('authToken')!)
+          auth.signout(localStorage.getItem('authToken')!)
+          navigate('/Login')
+
+        })
         return
       }
 

@@ -32,10 +32,9 @@ export default function () {
       return
     }
 
-    Swal.fire('Login error', 'Unregistred user', 'error')
+    Swal.fire('Login error', 'User not found', 'error')
     navigate('/register')
     return
-
   }
 
   return <>

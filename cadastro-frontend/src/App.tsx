@@ -3,11 +3,11 @@ import Login from './pages/Login'
 import { Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home'
 import { RequireAuth } from './contexts/Auth/RequireAuth'
-import UserPage from './pages/ManageAccount'
 import Register from './pages/Register'
 import { useContext } from 'react'
 import { AuthContext } from './contexts/Auth/AuthContext'
 import Update from './pages/Update'
+import ManageAccount from './pages/ManageAccount'
 
 export default function () {
   const auth = useContext(AuthContext)
@@ -21,7 +21,7 @@ export default function () {
     <Routes>
       <Route path='/' element={<RequireAuth><Home /></RequireAuth>} />
       <Route path='/login' element={<Login />} />
-      <Route path='/manageAccount' element={<RequireAuth><UserPage /></RequireAuth>} />
+      <Route path='/manageAccount' element={<RequireAuth><ManageAccount /></RequireAuth>} />
       <Route path='/register' element={<Register />} />
       {/*Objetivo: criar uma tela para gerenciar todos os usuários
       <Route path='/update' element={<RequireAuth><Update /></RequireAuth>} />

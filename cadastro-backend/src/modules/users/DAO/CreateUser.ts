@@ -1,12 +1,10 @@
-import { User } from "@prisma/client";
 import { AppError } from "../../../errors/appError";
 import { prisma } from "../../../prisma/Client";
 import { CreateUserDTO } from "../DTO/CreateUserDTO";
 
 export class CreateUser {
-  async execute({ name, email, password }: CreateUserDTO): Promise<User> {
+  async execute({ name, email, password }: CreateUserDTO): Promise<number> {
 
-    //verifica se já existe um usuário cadastrado com o email passado como parâmetro
     const userExists = await prisma.user.findUnique({
       where: {
         email
@@ -24,6 +22,6 @@ export class CreateUser {
       }
     })
 
-    return user
+    return user.idUser
   }
 }
