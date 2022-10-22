@@ -29,7 +29,7 @@ export default function () {
 
     if (response.status == 200) {
 
-      Swal.fire(`Success`, `Status: ${response.message} \nUser id: ${response.data.id}`, `success`)
+      Swal.fire(`Success`, `Status: ${response.message} \n Id edited: ${response.id}`, `success`)
       return
     }
 

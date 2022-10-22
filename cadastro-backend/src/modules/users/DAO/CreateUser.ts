@@ -14,7 +14,7 @@ export class CreateUser {
     })
 
     if (userExists) {
-      throw new AppError("User already exists.")
+      throw new AppError("User already registered.")
     }
 
     //cria um usuário com os parâmetros passados

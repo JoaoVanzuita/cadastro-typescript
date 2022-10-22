@@ -6,6 +6,7 @@ import { AppError } from "./errors/appError"
 import { Login } from "./modules/users/DAO/Login"
 import { GetUserById } from "./modules/users/DAO/GetUserById"
 import { GetAllUsers } from "./modules/users/DAO/GetAllUsers"
+import { UpdateUser } from "./modules/users/DAO/UpdateUser"
 
 //factory function: função que fabrica um objeto (paradigma funcional)
 //new Express() - orientado a objeto
@@ -41,7 +42,7 @@ app.get("/api/user/:id", async (req, res) => {
 
   const getUserById = new GetUserById()
 
-  const user = await getUserById.execute({idUser})
+  const user = await getUserById.execute({ idUser })
 
   res.json({
     "status": 200,
@@ -84,9 +85,7 @@ app.post("/api/user/", async (req, res) => {
 })
 
 //UPDATE USER
-app.patch("/api/user/:id", (req, res) => {
-  const { name, email, password } = req.body
-
+app.patch("/api/user/:id", async (req, res) => {
   const errors = []
 
   if (!req.body.name) {
@@ -102,33 +101,24 @@ app.patch("/api/user/:id", (req, res) => {
     res.status(400).json({ "error": errors.join() })
   }
 
-  // const update = `
-  //   UPDATE users SET
-  //     name = COALESCE(?,name),
-  //     email = COALESCE(?,email),
-  //     password = COALESCE(?,password)
-  //   WHERE
-  //     id = ?
-  // `
+  const { name, email, password } = req.body
+  const idUser = Number(req.params.id)
 
-  // database.run(update, [name, email, password, req.params.id], function (this: RunResult, err) {
-  //   if (err) {
-  //     res.status(400).json({ "message": err.message })
-  //     return
-  //   }
+  const updateUser = new UpdateUser()
+  const result = await updateUser.execute({ idUser, name, email, password })
 
-  //   res.status(200).json({
-  //     "message": "success",
-  //     "data": { name, email, password },
-  //     "changes": this.changes
-  //   })
+  res.status(200).json({
+    "status": 200,
+    "message": "success",
+    "id": result.idUser
+  })
 
   // })
 })
 
 //DELETE USER
 app.delete("/api/user/:id", (req, res) => {
-  const sql = `DELETE FROM users WHERE id = ?`
+  // const sql = `DELETE FROM users WHERE id = ?`
 
   // database.run(sql, [req.params.id], function (this: RunResult, err) {
 

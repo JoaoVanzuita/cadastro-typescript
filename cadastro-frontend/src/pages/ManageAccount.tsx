@@ -29,9 +29,9 @@ export default function () {
 
     const response = await api.update(userData!)
 
-    if (response.message) {
+    if (response.status == 200) {
 
-      Swal.fire(`Success`, `Status: ${response.message} \nChanges: ${response.changes}`, `success`)
+      Swal.fire(`Success`, `Status: ${response.message} \n Id edited: ${response.id}`, `success`)
 
       return
     }
@@ -46,15 +46,15 @@ export default function () {
     if (userData) {
       const response = await api.delete(userData)
 
-      if (response.message) {
+      if (response.status == 200) {
 
-        Swal.fire(`Success`, `Status: ${response.message} \nChanges: ${response.changes}`, `success`)
+        Swal.fire(`Success`, `Status: ${response.message} \n Id deleted: ${response.id}`, `success`)
 
         auth.signout(localStorage.getItem('authToken')!)
         return
       }
 
-      Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.error}`, `error`)
+      Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
       return
     }
 

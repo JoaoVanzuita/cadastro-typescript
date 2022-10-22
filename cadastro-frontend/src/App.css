@@ -47,7 +47,7 @@ nav a:hover {
   width: 100vw;
   background-color: #000000;
   text-align: center;
-  margin-bottom: 15%;
+  margin-bottom: 10%;
   color:#FFFFFF;
 }
 
@@ -134,12 +134,4 @@ select, input, .loading{
 
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid #000000;
-}
-
-.alert {
-  background-color: #a1a1a1;
-}
-
-.alert button{
-  background-color: #000000;
 }
