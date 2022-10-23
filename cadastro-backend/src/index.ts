@@ -8,11 +8,12 @@ import { GetUserById } from "./modules/users/DAO/GetUserById"
 import { GetAllUsers } from "./modules/users/DAO/GetAllUsers"
 import { UpdateUser } from "./modules/users/DAO/UpdateUser"
 import { DeleteUser } from "./modules/users/DAO/DeleteUser"
+import crypto from "crypto"
+import { encrypt } from "./modules/cipher/Cipher"
 
 //factory function: função que fabrica um objeto (paradigma funcional)
 //new Express() - orientado a objeto
 const app = express()
-
 const port = 8080
 const session: any = {}
 
@@ -71,10 +72,11 @@ app.post("/api/user/", async (req, res) => {
   }
 
   const { name, email, password } = req.body
-
   const createUser = new CreateUser();
 
-  const result = await createUser.execute({ name, email, password })
+  const encryptedPassword = encrypt(password)
+
+  const result = await createUser.execute({ name, email, password: encryptedPassword })
 
   if (result) {
     res.status(201).json({
@@ -104,9 +106,11 @@ app.patch("/api/user/:id", async (req, res) => {
 
   const { name, email, password } = req.body
   const idUser = Number(req.params.id)
-
   const updateUser = new UpdateUser()
-  const result = await updateUser.execute({ idUser, name, email, password })
+
+  const encryptedPassword = encrypt(password)
+
+  const result = await updateUser.execute({ idUser, name, email, password: encryptedPassword })
 
   res.status(200).json({
     "status": 200,
@@ -134,14 +138,16 @@ app.post("/api/login/", async (req, res) => {
   const { email, password } = req.body
   const login = new Login()
 
-  const user = await login.execute({ email, password })
+  const encryptedPassword = encrypt(password)
+
+  const user = await login.execute({ email, password: encryptedPassword })
 
   if (!user) {
     res.status(404).send()
     return
   }
 
-  require('crypto').randomBytes(48, (err: any, buffer: any) => {
+  crypto.randomBytes(48, (err: any, buffer: any) => {
     const token = buffer.toString('hex')
     session[token] = user
 
@@ -165,6 +171,7 @@ app.get("/api/logged/:sesid", (req, res) => {
     return
   }
 
+  session[req.params.sesid].password = ''
   res.status(200).json(session[req.params.sesid])
 })
 

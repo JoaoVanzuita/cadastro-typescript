@@ -1,15 +1,26 @@
-import { User } from "@prisma/client"
 import { AppError } from "../../../errors/appError"
 import { prisma } from "../../../prisma/Client"
 import { GetUserByIdDTO } from "../DTO/GetUserByIdDTO"
 
+type User = {
+  idUser: number,
+  name: string,
+  email: string
+}
+
 export class GetUserById {
-  
+
   async execute({idUser}: GetUserByIdDTO): Promise<User> {
 
     const user = await prisma.user.findUnique({
       where:{
         idUser
+      },
+      select:{
+        idUser: true,
+        name: true,
+        email: true,
+        password: false
       }
     })
 
