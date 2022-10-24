@@ -88,7 +88,17 @@ app.post("/api/user/", async (req, res) => {
 })
 
 //UPDATE USER
-app.patch("/api/user/:id", async (req, res) => {
+app.patch("/api/user/:id/:sesid", async (req, res) => {
+
+  if (!session[req.params.sesid]) {
+
+    res.status(403).json({
+      "status": 403,
+      "message": "invalid login"
+    })
+    return
+  }
+
   const errors = []
 
   if (!req.body.name) {
@@ -120,7 +130,17 @@ app.patch("/api/user/:id", async (req, res) => {
 })
 
 //DELETE USER
-app.delete("/api/user/:id", async (req, res) => {
+app.delete("/api/user/:id/:sesid", async (req, res) => {
+
+  if (!session[req.params.sesid]) {
+
+    res.status(403).json({
+      "status": 403,
+      "message": "invalid login"
+    })
+    return
+  }
+
   const idUser = Number(req.params.id)
 
   const deleteUser = new DeleteUser()
