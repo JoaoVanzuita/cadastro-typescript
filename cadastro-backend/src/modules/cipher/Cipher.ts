@@ -12,6 +12,5 @@ export const encrypt = (data: string): string => {
 
   cipher.update(data)
 
-
   return cipher.final(cryptoInfo.type)
 }

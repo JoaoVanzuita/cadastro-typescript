@@ -1,6 +1,6 @@
 import { User } from "@prisma/client"
 import { prisma } from "../../../prisma/Client";
-import { AppError } from "../../../errors/appError"
+import { ServerError } from "../../../errors/ServerError"
 import { loginDTO } from "../DTO/LoginDTO"
 
 export class Login {
@@ -17,7 +17,7 @@ export class Login {
     })
 
     if (userRegistered.length == 0) {
-      throw new AppError("User not registered.")
+      throw new ServerError("User not found.", 404)
     }
 
     return userRegistered[0]

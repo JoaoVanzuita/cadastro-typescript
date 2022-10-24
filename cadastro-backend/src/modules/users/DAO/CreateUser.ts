@@ -1,4 +1,4 @@
-import { AppError } from "../../../errors/appError";
+import { ServerError } from "../../../errors/ServerError";
 import { prisma } from "../../../prisma/Client";
 import { CreateUserDTO } from "../DTO/CreateUserDTO";
 
@@ -12,7 +12,7 @@ export class CreateUser {
     })
 
     if (userExists) {
-      throw new AppError("User already registered.")
+      throw new ServerError("User already registered")
     }
 
     //cria um usuário com os parâmetros passados

@@ -39,7 +39,7 @@ export default function () {
       return
     }
 
-    Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
+    Swal.fire(`Server error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
 
     return
   }
@@ -60,7 +60,7 @@ export default function () {
         return
       }
 
-      Swal.fire(`Api error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
+      Swal.fire(`Server error`, `Status: ${response.status} \nError: ${response.message}`, `error`)
       return
     }
 

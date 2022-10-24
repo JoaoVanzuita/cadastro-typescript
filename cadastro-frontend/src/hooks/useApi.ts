@@ -1,6 +1,5 @@
 import { User } from "../types/User"
 
-//Retorna um objeto que contém os métodos com as requisições ao servidor
 export const useApi = () => ({
 
   signin: async (email: string, password: string) => {
@@ -55,7 +54,7 @@ export const useApi = () => ({
   update: async (user: User) => {
 
     const { idUser: id, name, email, password } = user
-    const response = await fetch(`api/user/${id}`, {
+    const response = await fetch(`api/user/${id}/${localStorage.getItem('authToken')}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
@@ -66,7 +65,7 @@ export const useApi = () => ({
   delete: async (user: User) => {
 
     const id = user.idUser
-    const response = await fetch(`api/user/${id}`, {
+    const response = await fetch(`api/user/${id}/${localStorage.getItem('authToken')}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     })

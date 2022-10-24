@@ -1,4 +1,4 @@
-import { AppError } from "../../../errors/appError"
+import { ServerError } from "../../../errors/ServerError"
 import { prisma } from "../../../prisma/Client"
 import { GetUserByIdDTO } from "../DTO/GetUserByIdDTO"
 
@@ -10,13 +10,13 @@ type User = {
 
 export class GetUserById {
 
-  async execute({idUser}: GetUserByIdDTO): Promise<User> {
+  async execute({ idUser }: GetUserByIdDTO): Promise<User> {
 
     const user = await prisma.user.findUnique({
-      where:{
+      where: {
         idUser
       },
-      select:{
+      select: {
         idUser: true,
         name: true,
         email: true,
@@ -25,7 +25,7 @@ export class GetUserById {
     })
 
     if (!user) {
-      throw new AppError("User not found.", 404)
+      throw new ServerError("User not found", 404)
     }
 
     return user

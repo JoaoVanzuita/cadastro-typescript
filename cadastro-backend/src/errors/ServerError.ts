@@ -1,4 +1,4 @@
-export class AppError {
+export class ServerError {
   public readonly message: String
 
   public readonly statusCode: number

@@ -1,4 +1,4 @@
-import { AppError } from "../../../errors/appError";
+import { ServerError } from "../../../errors/ServerError";
 import { prisma } from "../../../prisma/Client";
 import { UpdateUserDTO } from "../DTO/UpdateUserDTO";
 
@@ -12,17 +12,17 @@ export class UpdateUser {
     })
 
     if (!userExists) {
-      throw new AppError("User not found.", 404)
+      throw new ServerError("User not found", 404)
     }
 
     const user = await prisma.user.update({
-      where:{
+      where: {
         idUser
       },
       data: {
         name, email, password
       },
-      select:{
+      select: {
         idUser: true,
       }
     })

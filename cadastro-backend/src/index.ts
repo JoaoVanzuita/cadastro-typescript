@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express"
 import "express-async-errors"
 import cors from 'cors'
 import { CreateUser } from "./modules/users/DAO/CreateUser"
-import { AppError } from "./errors/appError"
+import { ServerError } from "./errors/ServerError"
 import { Login } from "./modules/users/DAO/Login"
 import { GetUserById } from "./modules/users/DAO/GetUserById"
 import { GetAllUsers } from "./modules/users/DAO/GetAllUsers"
@@ -68,7 +68,7 @@ app.post("/api/user/", async (req, res) => {
     errors.push('no password epecified')
   }
   if (errors.length) {
-    res.status(400).json({ "error": errors.join() })
+    throw new ServerError(errors.join(), 400)
   }
 
   const { name, email, password } = req.body
@@ -91,12 +91,7 @@ app.post("/api/user/", async (req, res) => {
 app.patch("/api/user/:id/:sesid", async (req, res) => {
 
   if (!session[req.params.sesid]) {
-
-    res.status(403).json({
-      "status": 403,
-      "message": "invalid login"
-    })
-    return
+    throw new ServerError("invalid login", 403)
   }
 
   const errors = []
@@ -111,7 +106,7 @@ app.patch("/api/user/:id/:sesid", async (req, res) => {
     errors.push('no password epecified')
   }
   if (errors.length) {
-    res.status(400).json({ "error": errors.join() })
+    throw new ServerError(errors.join(), 400)
   }
 
   const { name, email, password } = req.body
@@ -133,12 +128,7 @@ app.patch("/api/user/:id/:sesid", async (req, res) => {
 app.delete("/api/user/:id/:sesid", async (req, res) => {
 
   if (!session[req.params.sesid]) {
-
-    res.status(403).json({
-      "status": 403,
-      "message": "invalid login"
-    })
-    return
+    throw new ServerError("invalid login", 403)
   }
 
   const idUser = Number(req.params.id)
@@ -163,8 +153,7 @@ app.post("/api/login/", async (req, res) => {
   const user = await login.execute({ email, password: encryptedPassword })
 
   if (!user) {
-    res.status(404).send()
-    return
+    throw new ServerError("User not found", 404)
   }
 
   crypto.randomBytes(48, (err: any, buffer: any) => {
@@ -184,11 +173,7 @@ app.post("/api/login/", async (req, res) => {
 app.get("/api/logged/:sesid", (req, res) => {
 
   if (session[req.params.sesid] == null) {
-
-    //usuário não cadastrado
-    res.status(404).send()
-
-    return
+    throw new ServerError("User not found", 404)
   }
 
   session[req.params.sesid].password = ''
@@ -210,7 +195,7 @@ app.get("/api/logout/:sesid", (req, res) => {
 //Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
-  if (err instanceof AppError) {
+  if (err instanceof ServerError) {
     res.status(err.statusCode).json({
       "status": err.statusCode,
       "message": err.message

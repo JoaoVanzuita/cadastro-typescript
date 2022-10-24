@@ -1,4 +1,4 @@
-import { AppError } from "../../../errors/appError"
+import { ServerError } from "../../../errors/ServerError"
 import { prisma } from "../../../prisma/Client"
 
 type User = {
@@ -11,7 +11,7 @@ export class GetAllUsers {
   async execute(): Promise<User[]> {
 
     const users = await prisma.user.findMany({
-      select:{
+      select: {
         idUser: true,
         name: true,
         email: true,
@@ -19,8 +19,8 @@ export class GetAllUsers {
       }
     })
 
-    if (users.length == 0) {
-      throw new AppError("There are no registered users.", 404)
+    if (!users.length) {
+      throw new ServerError("Users not found", 404)
     }
 
     return users
