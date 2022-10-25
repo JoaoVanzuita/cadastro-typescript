@@ -29,10 +29,11 @@ export default function () {
     </Routes>
     <footer>
       <nav>
+
         <Link to="/">Home</Link>
         {localStorage.getItem('authToken') && <Link to="/manageAccount">Manage account</Link>}
-        {!localStorage.getItem('authToken') && <Link to="/login">Login</Link>}
-        <Link to="/register">Register</Link>
+        {!localStorage.getItem('authToken') && <Link to="/">Login</Link>}
+        {!localStorage.getItem('authToken') && <Link to="/register">Register</Link>}
         {/*<Link to="/update">Update</Link>*/}
         {localStorage.getItem('authToken') && <Link to="" onClick={handleLogout}>Logout</Link>}
       </nav>

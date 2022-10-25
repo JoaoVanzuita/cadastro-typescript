@@ -8,6 +8,7 @@
   width: 100%;
 }
 
+
 footer{
   box-sizing: border-box;
   background-color: #000000;
@@ -51,18 +52,6 @@ nav a:hover {
   color:#FFFFFF;
 }
 
-select, .loading{
-  cursor: pointer;
-  background-color: #000000;
-  border: 0px;
-  font-size: 20px;
-  width: auto;
-  margin-bottom: 5%;
-  border-radius: 10px 20px;
-  text-align: center;
-  padding: 1%;
-}
-
 .form>input{
   border: none;
   color: #000000;
@@ -104,6 +93,7 @@ select, input, .loading{
 
 .form .action > button:hover{
   font-size: 20px;
+  color: #646cff;
 }
 
 .action {

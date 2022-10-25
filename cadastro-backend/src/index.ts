@@ -10,9 +10,8 @@ import { UpdateUser } from "./modules/users/DAO/UpdateUser"
 import { DeleteUser } from "./modules/users/DAO/DeleteUser"
 import crypto from "crypto"
 import { encrypt } from "./modules/cipher/Cipher"
+import path from "path"
 
-//factory function: função que fabrica um objeto (paradigma funcional)
-//new Express() - orientado a objeto
 const app = express()
 const port = 8080
 const session: any = {}
@@ -20,8 +19,6 @@ const session: any = {}
 app.use("/", express.static("../cadastro-frontend/dist"))
 app.use(express.json())
 app.use(cors());
-
-app.listen(port, () => console.log(`Server online - Running on port ${port}`))
 
 //GET ALL USERS
 app.get("/api/users", async (req, res) => {
@@ -208,3 +205,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     "message": `Internal server error - ${err.message}`
   })
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/../../cadastro-frontend/dist/index.html'));
+});
+
+app.listen(port, () => console.log(`Server online - Running on port ${port}`))
